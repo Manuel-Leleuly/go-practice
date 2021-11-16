@@ -7,8 +7,8 @@ type Customer struct {
 	Age           int
 }
 
-func (c Customer) hasBirthday() {
-	c.Age++
+func (customer Customer) sayHello(name string) {
+	fmt.Println("Hello", name, ". My name is", customer.Name)
 }
 
 func main() {
@@ -16,6 +16,8 @@ func main() {
 	manuel.Name = "Manuel"
 	manuel.Address = "Bandung"
 	manuel.Age = 15
+
+	manuel.sayHello("Joko")
 
 	fmt.Println(manuel)
 
@@ -28,4 +30,5 @@ func main() {
 
 	leleuly := Customer{"Leleuly", "Indonesia", 17}
 	fmt.Println(leleuly)
+
 }
