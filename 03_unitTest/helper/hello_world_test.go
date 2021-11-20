@@ -109,3 +109,37 @@ func TestSubTest(t *testing.T) {
 		require.Equal(t, "Hello Theodore", result, "Result must be 'Hello Theodore'")
 	})
 }
+
+/*
+	Sometimes creating a similar test function over and over but with a different parameter can be quite exhausting.
+	Therefore, we can use test table to create slice of struct and fill it with the data.
+	Afterwards, we can iterate each data and run the test. Therefore, we can only write the testing function once.
+*/
+func TestTableHelloWorld(t *testing.T) {
+	tests := []struct {
+		name, request, expected string
+	}{
+		{
+			name:     "Manuel",
+			request:  "Manuel",
+			expected: "Hello Manuel",
+		},
+		{
+			name:     "Theodore",
+			request:  "Theodore",
+			expected: "Hello Theodore",
+		},
+		{
+			name:     "Leleuly",
+			request:  "Leleuly",
+			expected: "Hello Leleuly",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := HelloWorld(test.request)
+			require.Equal(t, test.expected, result, "Result must be "+"'"+test.expected+"'")
+		})
+	}
+}
