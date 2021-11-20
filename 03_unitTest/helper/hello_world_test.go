@@ -95,3 +95,17 @@ func TestMain(m *testing.M) {
 	// after
 	fmt.Println("AFTER UNIT TEST")
 }
+
+/*
+	The Run() method is used to create a subtest inside a test
+*/
+func TestSubTest(t *testing.T) {
+	t.Run("Manuel", func(t *testing.T) {
+		result := HelloWorld("Manuel")
+		require.Equal(t, "Hello Manuel", result, "Result must be 'Hello Manuel'")
+	})
+	t.Run("Theodore", func(t *testing.T) {
+		result := HelloWorld("Theodore")
+		require.Equal(t, "Hello Theodore", result, "Result must be 'Hello Theodore'")
+	})
+}
