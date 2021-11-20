@@ -143,3 +143,17 @@ func TestTableHelloWorld(t *testing.T) {
 		})
 	}
 }
+
+/*
+	benchmark is used to test the performance of our code
+
+	to run benchmark = go test -v -bench=.
+	to run benchmark only = go test -v -run=asdf -bench=. // set -run to a non-existence unit test
+	to run selected benchmark = go test -v -bench=<the name of the benchmark function>
+*/
+
+func BenchmarkHelloWorld(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Manuel")
+	}
+}
