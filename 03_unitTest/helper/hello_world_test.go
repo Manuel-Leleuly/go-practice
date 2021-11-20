@@ -174,3 +174,39 @@ func BenchmarkSub(b *testing.B) {
 		}
 	})
 }
+
+/*
+	Similar to unit test, benchmark can be made into a benchmark table
+	so that we can benchmark the same method with different parameters without writing it more than once
+*/
+
+func BenchmarkHelloWorldTable(b *testing.B) {
+	tests := []struct {
+		name, request string
+	}{
+		{
+			name:    "Manuel",
+			request: "Manuel",
+		},
+		{
+			name:    "Theodore",
+			request: "Theodore",
+		},
+		{
+			name:    "Leleuly",
+			request: "Leleuly",
+		},
+		{
+			name:    "FullName",
+			request: "Manuel Theodore Leleuly",
+		},
+	}
+
+	for _, benchmark := range tests {
+		b.Run(benchmark.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				HelloWorld(benchmark.request)
+			}
+		})
+	}
+}
