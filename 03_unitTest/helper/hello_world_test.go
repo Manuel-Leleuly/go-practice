@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -60,4 +61,18 @@ func TestHelloWorldTheodore(t *testing.T) {
 		t.Fatal("Result must be 'Hello Theodore'")
 	}
 	fmt.Println("TestHelloWorldTheodore done")
+}
+
+/*
+	a skip function (t.Skip()) is used to skip a testing on a certain method.
+	For example, if the testing function is not compatible with a certain OS, you can use skip function to skip the testing and move on to the next
+*/
+func TestSkip(t *testing.T) {
+	fmt.Println(runtime.GOOS)
+	if runtime.GOOS == "linux" {
+		t.Skip("Cannot run on linux")
+	}
+
+	result := HelloWorld("Manuel")
+	assert.Equal(t, "Hello Eko", result, "Result must be 'Hello Eko'")
 }
