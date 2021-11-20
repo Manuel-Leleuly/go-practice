@@ -76,3 +76,22 @@ func TestSkip(t *testing.T) {
 	result := HelloWorld("Manuel")
 	assert.Equal(t, "Hello Eko", result, "Result must be 'Hello Eko'")
 }
+
+/*
+	test main is used to execute commands or functions before and/or after the unit test.
+	For instance, if you want to test the functions of communicating with a database,
+	you can use test main to first initialize and connect to the database before the testing begins.
+	Afterwards, you can create a function or a command to disconnect the project to the database.
+
+	WARNING: test main will only work in a package that it is written.
+	If you write a test main inside package A, it will not run on other packages besides A
+*/
+func TestMain(m *testing.M) {
+	// before
+	fmt.Println("BEFORE UNIT TEST")
+
+	m.Run()
+
+	// after
+	fmt.Println("AFTER UNIT TEST")
+}
