@@ -157,3 +157,20 @@ func BenchmarkHelloWorld(b *testing.B) {
 		HelloWorld("Manuel")
 	}
 }
+
+/*
+	Similar to unit test, benchmark also has Run() method so that we can create sub benchmarks
+*/
+
+func BenchmarkSub(b *testing.B) {
+	b.Run("Manuel", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Manuel")
+		}
+	})
+	b.Run("Theodore", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Theodore")
+		}
+	})
+}
