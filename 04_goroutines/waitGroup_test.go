@@ -22,6 +22,6 @@ func TestWaitGroup(t *testing.T) {
 		go RunAynchronous(group)
 	}
 
-	group.ait()
+	group.Wait()
 	fmt.Println("Selesai")
 }
