@@ -49,3 +49,32 @@ func TestChannelAsParameter(t *testing.T) {
 
 	time.Sleep(5 * time.Second)
 }
+
+/*
+	You can set the channel's behaviour to either send or receive data
+
+	for example:
+	chan<- string; it means that the channel can only be used to receive data from a goroutine
+	<-chan string: it means that the channel can only be used to send data from a goroutine
+*/
+
+func OnlyIn(channel chan<- string) {
+	time.Sleep(2 * time.Second)
+	channel <- "Manuel Theodore Leleuly"
+}
+
+func OnlyOut(channel <-chan string) {
+	data := <-channel
+
+	fmt.Println(data)
+}
+
+func TestInOutChannel(t *testing.T) {
+	channel := make(chan string)
+	defer close(channel)
+
+	go OnlyIn(channel)
+	go OnlyOut(channel)
+
+	time.Sleep(5 * time.Second)
+}
