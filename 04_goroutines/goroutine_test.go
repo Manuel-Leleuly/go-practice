@@ -32,3 +32,20 @@ func TestManyGoroutine(t *testing.T) {
 
 	time.Sleep(10 * time.Second) // my laptop is slow, alright :"(
 }
+
+func GiveMeResponse(channel chan string) {
+	time.Sleep(2 * time.Second)
+	channel <- "Manuel Theodore Leleuly"
+}
+
+func TestChannelAsParameter(t *testing.T) {
+	channel := make(chan string)
+	defer close(channel)
+
+	go GiveMeResponse(channel)
+
+	data := <-channel
+	fmt.Println(data)
+
+	time.Sleep(5 * time.Second)
+}
