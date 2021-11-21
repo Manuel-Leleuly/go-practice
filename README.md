@@ -4,4 +4,6 @@ This is a practice to understand the basics of go programming language. Huge tha
 
 **Warning**: This is for practice purposes only and will not be used for anything commercially related.
 
-**Info**: copy and paste each modules into a separate workspace in order to be able to run the program
+**Info**: copy and paste each modules into a separate workspace in order to be able to run the program.
+
+**Info**: english is not my first language. Therefore, I'd like to apologize if there are grammar errors here and there.
