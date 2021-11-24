@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -187,4 +188,95 @@ func TestExecSqlParameter(t *testing.T) {
 		panic(err)
 	}
 	fmt.Println("Success insert new customer")
+}
+
+func TestAutoIncrement(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	email := "manuel@gmail.com"
+	comment := "comment testing"
+
+	script := "INSERT INTO comments(email, comment) VALUES(?,?)"
+	result, err := db.ExecContext(ctx, script, email, comment)
+	if err != nil {
+		panic(err)
+	}
+
+	insertId, err := result.LastInsertId();
+	if err != nil{
+		panic(err)
+	}
+
+	
+	fmt.Println("Success insert new comment with id", insertId)
+}
+
+/*
+	prepare statement makes sure that we don't have to connect to the db more than once
+	when we have to store multiple data
+*/
+func TestPrepareStatement(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+	script := "INSERT INTO comments(email, comment) VALUES(?,?)"
+
+	statement, err := db.PrepareContext(ctx, script)
+	if err != nil{
+		panic(err)
+	}
+	defer statement.Close()
+
+	for i := 0; i < 10; i++ {
+		email := "manuel" + strconv.Itoa(i) + "@gmail.com"
+		comment := "Ini komen ke " + strconv.Itoa(i)
+		result, err := statement.ExecContext(ctx, email, comment)
+		if err != nil {
+			panic(err)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Comment Id", id)
+	}
+}
+
+func TestTransaction(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+	
+	ctx := context.Background()
+	tx, err := db.Begin()
+	if err != nil {
+		panic(err)
+	}
+
+	script := "INSERT INTO comments(email, comment) VALUES(?,?)"
+	// do transaction
+	for i := 0; i < 10; i++ {
+		email := "manuel" + strconv.Itoa(i) + "@gmail.com"
+		comment := "Ini komen ke " + strconv.Itoa(i)
+		result, err := tx.ExecContext(ctx, script, email, comment)
+		if err != nil {
+			panic(err)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Comment Id", id)
+	}
+
+	// transactionError := tx.Commit()
+	transactionError := tx.Rollback() // even though the test says that it's successful, the data will not be written in the db
+	if transactionError != nil{
+		panic(transactionError)
+	}
 }
